@@ -13,8 +13,7 @@ class GetStarted extends StatelessWidget {
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
 
-    return SafeArea(
-      child: Scaffold(
+    return  Scaffold(
         body: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -85,7 +84,6 @@ class GetStarted extends StatelessWidget {
             ),
           ],
         ),
-      ),
-    );
+      );
   }
 }
