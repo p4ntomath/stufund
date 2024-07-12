@@ -1,16 +1,43 @@
+import 'package:amplify_flutter/amplify_flutter.dart';
+import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
 import 'package:flutter/material.dart';
-import 'data/colors.dart';
-import 'pages/onBoardingScreen.dart';// Import the custom colors file
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:stufund/pages/HomePage.dart';
+import 'package:stufund/pages/authenticationPages/confirmCodePage.dart';
+import 'package:stufund/pages/authenticationPages/forgotPassword.dart';
 
-void main() {
-  runApp(MyApp());
+import 'configs/amplifyconfiguration.dart';
+import 'package:stufund/pages/getStartedPage.dart';
+import 'package:stufund/pages/onBoardingScreen.dart';
+import 'data/colors.dart';
+import 'pages/authenticationPages/SignUpPage.dart';
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await _configureAmplify();
+  runApp(const MyApp());
+}
+
+
+
+Future<void> _configureAmplify() async {
+  try {
+    final auth = AmplifyAuthCognito();
+    await Amplify.addPlugin(auth);
+    await Amplify.configure(amplifyconfig);
+  } on Exception catch (e) {
+    print('An error occurred configuring Amplify: $e');
+  }
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
+
     return MaterialApp(
-      title: 'Flutter Custom Colors',
       theme: ThemeData(
         primaryColor: AppColors.primary,
         colorScheme: ColorScheme(
@@ -42,13 +69,41 @@ class MyApp extends StatelessWidget {
         ),
         elevatedButtonTheme: ElevatedButtonThemeData(
           style: ElevatedButton.styleFrom(
-            foregroundColor: AppColors.text, backgroundColor: AppColors.primary,
+            foregroundColor: AppColors.text,
+            backgroundColor: AppColors.primary,
           ),
         ),
       ),
-      home: OnBoardingScreen(),
+      home: FutureBuilder<bool>(
+      future: loginStatus(),
+      builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return Center(child: CircularProgressIndicator());
+        } else if (snapshot.hasError) {
+          print(snapshot.error);
+          return Center(child: Text('Error: ${snapshot.error}'));
+        } else {
+          bool isLoggedIn = snapshot.data ?? false;
+          if (isLoggedIn) {
+            return HomePage();
+          } else {
+            return screenWidth >= 800 ? GetStarted() : OnBoardingScreen();
+          }
+        }
+      },
+    ),
     );
   }
 }
 
+Future<bool> loginStatus() async {
+  final SharedPreferences prefs = await SharedPreferences.getInstance();
+  String key = 'isLoggedIn';
+  if (prefs.containsKey(key)) {
+    return prefs.getBool(key) ?? false;
+  } else {
+    await prefs.setBool(key, false);
+    return false;
+  }
+}
 
