@@ -1,9 +1,8 @@
 // ignore_for_file: unrelated_type_equality_checks, unnecessary_import, unused_local_variable, use_build_context_synchronously
-
-import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
-import 'package:amplify_flutter/amplify_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:stufund/data/colors.dart';
+import 'package:amplify_flutter/amplify_flutter.dart';
+import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
 
 class UserSessionManager {
   Future<bool> signUpUser(String email, String password, String preferredUsername,BuildContext context) async {
@@ -62,7 +61,7 @@ class UserSessionManager {
       ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         backgroundColor: AppColors.background,
-        content: Text('Error signing up: ${e.message}',
+        content: Text('Error Comfirming: ${e.message}',
         style: TextStyle(
           color: AppColors.text
         ),),
@@ -88,7 +87,7 @@ class UserSessionManager {
           ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         backgroundColor: AppColors.background,
-        content: Text('Error signing up: ${e.message}',
+        content: Text('Error Sign In: ${e.message}',
         style: TextStyle(
           color: AppColors.text
         ),),
@@ -134,7 +133,7 @@ class UserSessionManager {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
               backgroundColor: AppColors.background,
-              content: Text('Error signing up: ${e.message}',
+              content: Text('Error Sending code : ${e.message}',
               style: TextStyle(
                 color: AppColors.text
               ),),

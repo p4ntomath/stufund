@@ -8,6 +8,8 @@ import 'package:stufund/pages/authenticationPages/forgotPassword.dart';
 import 'package:stufund/pages/authenticationPages/userSessionManager.dart';
 import '../../data/colors.dart';
 import 'SignUpPage.dart';
+
+
 class LogInPage extends StatefulWidget {
   const LogInPage({super.key});
 
@@ -35,202 +37,204 @@ class _LogInPageState extends State<LogInPage> {
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
-      backgroundColor: AppColors.primary,
-      body: SafeArea(
-        child: SingleChildScrollView(  // Added SingleChildScrollView here
-          padding: const EdgeInsets.all(10),
-          child: Column(
-            children: [
-              Center(
-                child: ConstrainedBox(
-                  constraints: BoxConstraints(
-                  minWidth: 100,
-                  maxWidth: 300,
-                ),
-                  child: Image.asset(
-                    'assets/images/applogo.png',
-                    width: (screenWidth * 0.6),
+        appBar: AppBar(
+          backgroundColor:AppColors.primary ,
+        ),
+        backgroundColor: AppColors.primary,
+        body:SingleChildScrollView(  // Added SingleChildScrollView here
+            padding: const EdgeInsets.all(10),
+            child: Column(
+              children: [
+                Center(
+                  child: ConstrainedBox(
+                    constraints: BoxConstraints(
+                    minWidth: 100,
+                    maxWidth: 300,
                   ),
-                ),
-              ),
-              SizedBox(height: 30),
-              ConstrainedBox(
-                constraints: BoxConstraints(
-                  minWidth: 100,
-                  maxWidth: 300,
-                ),
-                child: Form(
-                  key: formKey,
-                  child: Column(
-                    children: [
-                      Text(
-                        'Log In',
-                        style: GoogleFonts.lato(
-                          fontSize: 24,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      SizedBox(height: 20),
-                      TextFormField(
-                        controller: emailController,
-                        decoration: InputDecoration(
-                          suffixIcon: Padding(
-                            padding: const EdgeInsets.only(right: 8),
-                            child: Icon(
-                              Icons.email_outlined,
-                              color: AppColors.background,
-                            ),
-                          ),
-                          filled: true,
-                          fillColor: AppColors.secondary,
-                          labelStyle: TextStyle(
-                            color: Colors.black87,
-                          ),
-                          labelText: 'Email',
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10),
-                            borderSide: BorderSide(
-                              color: Colors.white,
-                              width: 2,
-                            ),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10),
-                            borderSide: BorderSide(
-                              color: AppColors.button,
-                              width: 2,
-                            ),
-                          ),
-                        ),
-                        validator: validateEmail,
-                      ),
-                      SizedBox(height: 20),
-                      TextFormField(
-                        controller: passwordController,
-                        obscureText: !_isPasswordVisible,
-                        decoration: InputDecoration(
-                          suffixIcon: Padding(
-                            padding: const EdgeInsets.only(right: 8),
-                            child: IconButton(
-                              icon: Icon(
-                                _isPasswordVisible
-                                    ? Icons.visibility
-                                    : Icons.visibility_off,
-                                color: AppColors.background,
-                              ),
-                              onPressed: () {
-                                setState(() {
-                                  _isPasswordVisible = !_isPasswordVisible;
-                                });
-                              },
-                            ),
-                          ),
-                          filled: true,
-                          fillColor: AppColors.secondary,
-                          labelStyle: TextStyle(
-                            color: Colors.black87,
-                          ),
-                          labelText: 'Password',
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10),
-                            borderSide: BorderSide(
-                              color: Colors.white,
-                              width: 2,
-                            ),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10),
-                            borderSide: BorderSide(
-                              color: AppColors.button,
-                              width: 2,
-                            ),
-                          ),
-                        ),
-                        validator: validatePassword,
-                      ),
-                      SizedBox(height: 5,),
-                      Align(
-                        alignment: Alignment.centerRight,
-                        child: TextButton(
-                          onPressed: (){
-                            Navigator.push( context,
-                              MaterialPageRoute(builder: (context) => ForgotPasswordPage()),
-                            );
-                          },
-                          child: Text('Forgot Password?',
-                          style: TextStyle(
-                            color: AppColors.text
-                          ),)
-                          )
-                          ),
-                      SizedBox(height: 20),
-                      ElevatedButton(
-                        onPressed: () async {
-                          if(formKey.currentState!.validate()){
-                            UserSessionManager userSessionManager = UserSessionManager();
-                            String email = emailController.text;
-                            String password = passwordController.text;
-                            if(await userSessionManager.loginUser(email, password,context)){
-                              final SharedPreferences prefs = await SharedPreferences.getInstance();
-                              String key = 'isLoggedIn';
-                              prefs.setBool(key, true);
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
-                                  backgroundColor: AppColors.background,
-                                  content: Text('Log In Success',
-                                  style: TextStyle(
-                                    color: AppColors.text
-                                  ),),
-                                ),
-                              );
-                              Navigator.push( context,
-                              MaterialPageRoute(builder: (context) => HomePage()));
-
-                            }
-                          }
-
-                        },
-                        child: Text('Log In',
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            color: AppColors.text
-                          ),
-                        ),
-                        style: ElevatedButton.styleFrom(
-                          padding: EdgeInsets.symmetric(horizontal: 40,vertical: 20),
-                          backgroundColor: AppColors.secondary,
-                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12))
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              SizedBox(height: 30,),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text("Don't have an account? "),
-                  GestureDetector(
-                    onTap: (){
-                        Navigator.push( context,
-                              MaterialPageRoute(builder: (context) => SignUpPage()),
-                            );
-                      },
-                    child: Text("Sign Up",
-                      style:TextStyle(
-                        color: Color.fromARGB(255, 76, 80, 209)
-                      ),
+                    child: Image.asset(
+                      'assets/images/applogo.png',
+                      width: (screenWidth * 0.6),
                     ),
                   ),
-                ],
-              ),
-              SizedBox(height: 30,),
-            ],
+                ),
+                SizedBox(height: 30),
+                ConstrainedBox(
+                  constraints: BoxConstraints(
+                    minWidth: 100,
+                    maxWidth: 300,
+                  ),
+                  child: Form(
+                    key: formKey,
+                    child: Column(
+                      children: [
+                        Text(
+                          'Log In',
+                          style: GoogleFonts.lato(
+                            fontSize: 24,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        SizedBox(height: 20),
+                        TextFormField(
+                          controller: emailController,
+                          decoration: InputDecoration(
+                            suffixIcon: Padding(
+                              padding: const EdgeInsets.only(right: 8),
+                              child: Icon(
+                                Icons.email_outlined,
+                                color: AppColors.background,
+                              ),
+                            ),
+                            filled: true,
+                            fillColor: AppColors.secondary,
+                            labelStyle: TextStyle(
+                              color: Colors.black87,
+                            ),
+                            labelText: 'Email',
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10),
+                              borderSide: BorderSide(
+                                color: Colors.white,
+                                width: 2,
+                              ),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10),
+                              borderSide: BorderSide(
+                                color: AppColors.button,
+                                width: 2,
+                              ),
+                            ),
+                          ),
+                          validator: validateEmail,
+                        ),
+                        SizedBox(height: 20),
+                        TextFormField(
+                          controller: passwordController,
+                          obscureText: !_isPasswordVisible,
+                          decoration: InputDecoration(
+                            suffixIcon: Padding(
+                              padding: const EdgeInsets.only(right: 8),
+                              child: IconButton(
+                                icon: Icon(
+                                  _isPasswordVisible
+                                      ? Icons.visibility
+                                      : Icons.visibility_off,
+                                  color: AppColors.background,
+                                ),
+                                onPressed: () {
+                                  setState(() {
+                                    _isPasswordVisible = !_isPasswordVisible;
+                                  });
+                                },
+                              ),
+                            ),
+                            filled: true,
+                            fillColor: AppColors.secondary,
+                            labelStyle: TextStyle(
+                              color: Colors.black87,
+                            ),
+                            labelText: 'Password',
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10),
+                              borderSide: BorderSide(
+                                color: Colors.white,
+                                width: 2,
+                              ),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10),
+                              borderSide: BorderSide(
+                                color: AppColors.button,
+                                width: 2,
+                              ),
+                            ),
+                          ),
+                          validator: validatePassword,
+                        ),
+                        SizedBox(height: 5,),
+                        Align(
+                          alignment: Alignment.centerRight,
+                          child: TextButton(
+                            onPressed: (){
+                              Navigator.push( context,
+                                MaterialPageRoute(builder: (context) => ForgotPasswordPage()),
+                              );
+                            },
+                            child: Text('Forgot Password?',
+                            style: TextStyle(
+                              color: AppColors.text
+                            ),)
+                            )
+                            ),
+                        SizedBox(height: 20),
+                        ElevatedButton(
+                          onPressed: () async {
+                            if(formKey.currentState!.validate()){
+                              UserSessionManager userSessionManager = UserSessionManager();
+                              String email = emailController.text;
+                              String password = passwordController.text;
+                              if(await userSessionManager.loginUser(email, password,context)){
+                                final SharedPreferences prefs = await SharedPreferences.getInstance();
+                                String key = 'isLoggedIn';
+                                prefs.setBool(key, true);
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    backgroundColor: AppColors.background,
+                                    content: Text('Log In Success',
+                                    style: TextStyle(
+                                      color: AppColors.text
+                                    ),),
+                                  ),
+                                );
+                                Navigator.push( context,
+                                MaterialPageRoute(builder: (context) => HomePage()));
+      
+                              }
+                            }
+      
+                          },
+                          child: Text('Log In',
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              color: AppColors.text
+                            ),
+                          ),
+                          style: ElevatedButton.styleFrom(
+                            padding: EdgeInsets.symmetric(horizontal: 40,vertical: 15),
+                            backgroundColor: AppColors.secondary,
+                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12))
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                SizedBox(height: 30,),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text("Don't have an account? "),
+                    GestureDetector(
+                      onTap: (){
+                          Navigator.push( context,
+                                MaterialPageRoute(builder: (context) => SignUpPage()),
+                              );
+                        },
+                      child: Text("Sign Up",
+                        style:TextStyle(
+                          color: Color.fromARGB(255, 76, 80, 209)
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(height: 30,),
+              ],
+            ),
           ),
-        ),
-      ),
-    );
+        
+      );
   }
 
   String? validateEmail(String? value) {

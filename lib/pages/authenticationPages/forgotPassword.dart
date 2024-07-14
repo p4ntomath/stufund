@@ -7,7 +7,7 @@ import 'package:stufund/pages/authenticationPages/userSessionManager.dart';
 import '../../data/colors.dart';
 
 class ForgotPasswordPage extends StatefulWidget {
-  const ForgotPasswordPage({Key? key}) : super(key: key);
+  const ForgotPasswordPage({super.key});
 
   @override
   _ForgotPasswordPageState createState() => _ForgotPasswordPageState();
@@ -34,9 +34,11 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: AppColors.primary,
+      ),
       backgroundColor: AppColors.primary,
-      body: SafeArea(
-        child: SingleChildScrollView(
+      body: SingleChildScrollView(
           padding: const EdgeInsets.all(10),
           child: Column(
             children: [
@@ -215,7 +217,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                           ),
                           style: ElevatedButton.styleFrom(
                             padding: EdgeInsets.symmetric(
-                                horizontal: 40, vertical: 20),
+                                horizontal: 40, vertical: 15),
                             backgroundColor: AppColors.secondary,
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(12)),
@@ -249,7 +251,6 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
             ],
           ),
         ),
-      ),
     );
   }
 

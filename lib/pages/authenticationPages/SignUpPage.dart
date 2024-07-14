@@ -34,9 +34,11 @@ class _SignUpPageState extends State<SignUpPage> {
 
     double screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: AppColors.primary,
+      ),
       backgroundColor: AppColors.primary,
-      body: SafeArea(
-        child: SingleChildScrollView(
+      body:SingleChildScrollView(
           padding: const EdgeInsets.all(10),
           child: Column(
             children: [
@@ -203,7 +205,7 @@ class _SignUpPageState extends State<SignUpPage> {
                           ),
                         ),
                         style: ElevatedButton.styleFrom(
-                          padding: EdgeInsets.symmetric(horizontal: 40, vertical: 20),
+                          padding: EdgeInsets.symmetric(horizontal: 40, vertical: 15),
                           backgroundColor: AppColors.secondary,
                           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                         ),
@@ -240,7 +242,6 @@ class _SignUpPageState extends State<SignUpPage> {
             ],
           ),
         ),
-      ),
     );
   }
 

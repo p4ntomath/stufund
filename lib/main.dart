@@ -1,16 +1,12 @@
-import 'package:amplify_flutter/amplify_flutter.dart';
+import 'package:amplify_core/amplify_core.dart';
 import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:stufund/pages/HomePage.dart';
-import 'package:stufund/pages/authenticationPages/confirmCodePage.dart';
-import 'package:stufund/pages/authenticationPages/forgotPassword.dart';
-
 import 'configs/amplifyconfiguration.dart';
 import 'package:stufund/pages/getStartedPage.dart';
 import 'package:stufund/pages/onBoardingScreen.dart';
 import 'data/colors.dart';
-import 'pages/authenticationPages/SignUpPage.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -90,8 +86,7 @@ class MyApp extends StatelessWidget {
             return screenWidth >= 800 ? GetStarted() : OnBoardingScreen();
           }
         }
-      },
-    ),
+      },)
     );
   }
 }
